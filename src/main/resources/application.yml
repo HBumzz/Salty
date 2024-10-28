@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: Salty
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ''
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+    ##MySQL ?? (???? ??, ??? ??? ? ?? /local)
+  #  datasource:
+  #    driver-class-name: com.mysql.cj.jdbc.Driver
+  #    url: jdbc:mysql://localhost:3306/test_db
+  #    username: test
+  #    password: 1234
+
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+  sql:
+    init:
+      platform: h2
+      mode: always
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: khsso102649@gmail.com
+    password: yjuikbjezgbyosyw
+    properties:
+      mail:
+        smtp:
+          auth: true
+          required: true
+        connection timeout: 5000
+        timeout: 5000
+        write timeout: 5000
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+jwt:
+  secret: tempJWTKEYqweqweqweqweqweqweqweqweqweqweqwe
+  access-token:
+    expiration: 3600000
+  refresh-token:
+    expiration: 604800000
+
+logging:
+  level:
+    org.hibernate.SQL: INFO
+    org.hibernate.type.descriptor.sql: TRACE
+
+server:
+  port: 8080
