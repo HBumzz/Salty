@@ -1,14 +1,16 @@
 package com.app.salty.board.service;
 
-import com.app.salty.board.repository.CommentIsLikeRepository;
+import com.app.salty.board.repository.CommentLikeRepository;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CommentIsLikeServiceImpl implements CommentIsLikeService {
 
-    CommentIsLikeRepository commentIsLikeRepository;
+    CommentLikeRepository commentLikeRepository;
 
-    CommentIsLikeServiceImpl(CommentIsLikeRepository commentIsLikeRepository) {
-        this.commentIsLikeRepository = commentIsLikeRepository;
+    CommentIsLikeServiceImpl(CommentLikeRepository commentLikeRepository) {
+        this.commentLikeRepository = commentLikeRepository;
     }
 
     @Override

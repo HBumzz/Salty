@@ -1,7 +1,7 @@
 package com.app.salty.board.service;
 
 import com.app.salty.board.dto.board.GetBoardResponseDto;
-import com.app.salty.board.repository.BoardIsLikeRepository;
+import com.app.salty.board.repository.BoardLikeRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,10 @@ import java.util.List;
 @Service
 public class BoardIsLikeServiceImpl implements BoardIsLikeService {
 
-    BoardIsLikeRepository boardIsLikeRepository;
+    BoardLikeRepository boardLikeRepository;
 
-    BoardIsLikeServiceImpl(BoardIsLikeRepository boardIsLikeRepository) {
-        this.boardIsLikeRepository = boardIsLikeRepository;
+    BoardIsLikeServiceImpl(BoardLikeRepository boardLikeRepository) {
+        this.boardLikeRepository = boardLikeRepository;
     }
 
     @Override

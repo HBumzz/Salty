@@ -1,7 +1,7 @@
 package com.app.salty.board.service;
 
 import com.app.salty.board.dto.board.GetBoardResponseDto;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity;import org.springframework.stereotype.Service;
 
 import java.util.List;
 
