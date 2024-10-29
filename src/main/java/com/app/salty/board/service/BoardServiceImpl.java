@@ -4,6 +4,7 @@ import com.app.salty.board.dto.board.GetBoardResponseDto;
 import com.app.salty.board.dto.board.GetBoardWithCommentResponseDto;
 import com.app.salty.board.dto.board.SaveBoardRequestDto;
 import com.app.salty.board.dto.board.UpdateBoardRequestDto;
+import com.app.salty.board.entity.Board;
 import com.app.salty.board.repository.BoardRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,9 @@ public class BoardServiceImpl implements BoardService {
 
 
     @Override
-    public ResponseEntity<List<GetBoardResponseDto>> getBoardList() {
-        return null;
+    public List<GetBoardResponseDto> getBoardList() {
+        List<Board> list = boardRepository.findAll();
+        return list.stream().map(GetBoardResponseDto::new).toList();
     }
 
     @Override
@@ -31,8 +33,9 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public ResponseEntity<Void> saveBoard(SaveBoardRequestDto dto) {
-        return null;
+    public Board saveBoard(SaveBoardRequestDto dto) {
+        Board board = dto.toEntity();
+        return boardRepository.save(board);
     }
 
     @Override
