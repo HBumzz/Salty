@@ -1,10 +1,10 @@
 package com.app.salty.board.entity;
 
+import com.app.salty.user.entity.Users;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDateTime;
 
@@ -13,7 +13,12 @@ import java.time.LocalDateTime;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="comment_id")
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private Users user;
 
     @ManyToOne
     @JoinColumn(name ="board_id")

@@ -4,16 +4,16 @@ import com.app.salty.user.entity.Users;
 import jakarta.persistence.*;
 
 @Entity
-public class IsLike {
+public class CommentLike {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private Users userId;
+    private Users user;
 
     @ManyToOne
-    @JoinColumn(name = "board_id")
-    private Board boardId;
+    @JoinColumn(name = "comment_id")
+    private Comment comment;
 }
