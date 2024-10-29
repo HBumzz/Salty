@@ -50,6 +50,7 @@ public class WebSecurityConfig {
                                 "/h2-console/**" //임시
                         ).permitAll()
                         .requestMatchers("/api/auth/**","/auth/**").permitAll()
+                        .requestMatchers("/api/boards/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
