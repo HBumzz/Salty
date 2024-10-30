@@ -1,12 +1,10 @@
-package com.app.salty.board.dto.board;
+package com.app.salty.board.dto.article;
 
-import com.app.salty.board.entity.Board;
+import com.app.salty.board.entity.Article;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 import static com.app.salty.util.DateFormatUtil.formatter;
 
@@ -14,13 +12,13 @@ import static com.app.salty.util.DateFormatUtil.formatter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SaveBoardResponseDto {
+public class SaveArticleResponseDto {
     private Long boardId;
     private Long writerId;
     private String title;
     private String createdAt;
 
-    public SaveBoardResponseDto(Board board) {
+    public SaveArticleResponseDto(Article board) {
         this.boardId = board.getId();
         this.writerId= board.getUser().getId();
         this.title= board.getTitle();

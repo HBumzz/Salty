@@ -1,7 +1,5 @@
 package com.app.salty.board.entity;
 
-import com.app.salty.board.dto.board.GetBoardResponseDto;
-import com.app.salty.board.dto.board.SaveBoardResponseDto;
 import com.app.salty.user.entity.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @EntityListeners(AuditingEntityListener.class)
-public class Board {
+public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="board_id")
@@ -30,7 +28,7 @@ public class Board {
 
     @Enumerated(EnumType.STRING)
     @Column(name ="board_header", nullable = false)
-    private BoardHeader header;
+    private ArticleHeader header;
 
     @Column(nullable = false)
     private String title;
@@ -46,7 +44,7 @@ public class Board {
     @Column(name="updated-at")
     private LocalDateTime updatedAt;
 
-    public Board(Users user, BoardHeader header, String title, String content) {
+    public Article(Users user, ArticleHeader header, String title, String content) {
         this.user = user;
         this.header=header;
         this.title=title;
