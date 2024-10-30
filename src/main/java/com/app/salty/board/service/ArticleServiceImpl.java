@@ -1,9 +1,6 @@
 package com.app.salty.board.service;
 
-import com.app.salty.board.dto.article.GetArticleResponseDto;
-import com.app.salty.board.dto.article.GetArticleWithCommentResponseDto;
-import com.app.salty.board.dto.article.SaveArticleRequestDto;
-import com.app.salty.board.dto.article.UpdateArticleRequestDto;
+import com.app.salty.board.dto.article.*;
 import com.app.salty.board.entity.Article;
 import com.app.salty.board.repository.ArticleRepository;
 import org.springframework.http.ResponseEntity;
@@ -20,41 +17,49 @@ public class ArticleServiceImpl implements ArticleService {
         this.articleRepository = articleRepository;
     }
 
-
     @Override
-    public List<GetArticleResponseDto> getBoardList() {
+    public List<GetArticleResponseDto> getArticleList() {
         List<Article> list = articleRepository.findAll();
         return list.stream().map(GetArticleResponseDto::new).toList();
     }
 
     @Override
-    public ResponseEntity<GetArticleResponseDto> getBoardById(Long id) {
+    public GetArticleResponseDto getArticleById(Long id) {
+        Article article = articleRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        return new GetArticleResponseDto(article);
+    }
+
+    @Override
+    public SaveArticleResponseDto saveArticle(SaveArticleRequestDto dto) {
+        Article article = articleRepository.save(dto.toEntity());
+        return new SaveArticleResponseDto(article);
+    }
+
+    @Override
+    public UpdateArticleResponseDto updateArticle(UpdateArticleRequestDto dto)  {
+
+        Article article = articleRepository.findById(dto.getId()).orElseThrow(IllegalArgumentException::new);
+        article.setHeader(dto.getHeader());
+        article.setTitle(dto.getTitle());
+        article.setContent(dto.getContent());
+
+        Article newArticle = articleRepository.save(article);
+        return new UpdateArticleResponseDto(newArticle);
+    }
+
+    @Override
+    public void deleteArticle(Long id) {
+        articleRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        articleRepository.deleteById(id);
+    }
+
+    @Override
+    public ResponseEntity<List<GetArticleResponseDto>> getArticleListById(Long Id) {
         return null;
     }
 
     @Override
-    public Article saveBoard(SaveArticleRequestDto dto) {
-        Article article = dto.toEntity();
-        return articleRepository.save(article);
-    }
-
-    @Override
-    public ResponseEntity<Void> updateBoard(UpdateArticleRequestDto dto) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<Void> deleteBoard(Long id) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<List<GetArticleResponseDto>> getBoardListById(Long Id) {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity<GetArticleWithCommentResponseDto> getBoardWithCommentById(Long Id) {
+    public ResponseEntity<GetArticleWithCommentResponseDto> getArticleWithCommentById(Long Id) {
         return null;
     }
 }

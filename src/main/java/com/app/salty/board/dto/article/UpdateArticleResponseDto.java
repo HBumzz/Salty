@@ -1,7 +1,6 @@
 package com.app.salty.board.dto.article;
 
 import com.app.salty.board.entity.Article;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,18 +9,17 @@ import static com.app.salty.util.DateFormatUtil.formatter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class SaveArticleResponseDto {
+public class UpdateArticleResponseDto {
     private Long boardId;
     private Long writerId;
     private String title;
-    private String createdAt;
+    private String updatedAt;
 
-    public SaveArticleResponseDto(Article article) {
+    public UpdateArticleResponseDto(Article article) {
         this.boardId = article.getId();
         this.writerId= article.getUser().getId();
         this.title= article.getTitle();
-        this.createdAt = article.getCreatedAt().format(formatter);
+        this.updatedAt = article.getUpdatedAt().format(formatter);
     }
 }

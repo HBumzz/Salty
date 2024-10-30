@@ -1,10 +1,12 @@
 package com.app.salty.board.entity;
 
+import com.app.salty.board.dto.article.UpdateArticleRequestDto;
 import com.app.salty.user.entity.Users;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 public class Article {
     @Id
@@ -37,14 +40,22 @@ public class Article {
     private String content;
 
     @CreatedDate
-    @Column(name="created-at")
+    @Column(name="created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(name="updated-at")
+    @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
     public Article(Users user, ArticleHeader header, String title, String content) {
+        this.user = user;
+        this.header=header;
+        this.title=title;
+        this.content=content;
+    }
+
+    public Article(Long id, Users user, ArticleHeader header, String title, String content) {
+        this.id = id;
         this.user = user;
         this.header=header;
         this.title=title;

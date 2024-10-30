@@ -26,17 +26,17 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name ="board_id")
-    private Board board;
+    private Article board;
 
     @Column(name ="body" ,nullable = false)
     private String body;
 
     @CreatedDate
-    @Column(name="created-at")
+    @Column(name="created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(name="updated-at")
+    @Column(name="updated_at")
     private LocalDateTime updatedAt;
 
 }
