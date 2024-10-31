@@ -1,6 +1,6 @@
 package com.app.salty.board.entity;
 
-public enum Likes {
+public enum LikeContentType {
     ARTICLE,
     COMMENT
 }

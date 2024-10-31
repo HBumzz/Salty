@@ -30,7 +30,7 @@ public class Article {
     private Users user;
 
     @Enumerated(EnumType.STRING)
-    @Column(name ="board_header", nullable = false)
+    @Column(name ="article_header", nullable = false)
     private ArticleHeader header;
 
     @Column(nullable = false)
