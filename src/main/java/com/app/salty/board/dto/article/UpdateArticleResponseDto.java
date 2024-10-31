@@ -11,13 +11,13 @@ import static com.app.salty.util.DateFormatUtil.formatter;
 @Setter
 @NoArgsConstructor
 public class UpdateArticleResponseDto {
-    private Long boardId;
+    private Long articleId;
     private Long writerId;
     private String title;
     private String updatedAt;
 
     public UpdateArticleResponseDto(Article article) {
-        this.boardId = article.getId();
+        this.articleId = article.getId();
         this.writerId= article.getUser().getId();
         this.title= article.getTitle();
         this.updatedAt = article.getUpdatedAt().format(formatter);

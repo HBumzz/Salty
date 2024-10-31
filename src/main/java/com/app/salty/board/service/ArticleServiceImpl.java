@@ -1,9 +1,11 @@
 package com.app.salty.board.service;
 
 import com.app.salty.board.dto.article.*;
+import com.app.salty.board.dto.comment.GetCommentResponseDto;
 import com.app.salty.board.entity.Article;
+import com.app.salty.board.entity.Comment;
 import com.app.salty.board.repository.ArticleRepository;
-import org.springframework.http.ResponseEntity;
+import com.app.salty.board.repository.CommentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +14,11 @@ import java.util.List;
 public class ArticleServiceImpl implements ArticleService {
 
     ArticleRepository articleRepository;
+    CommentRepository commentRepository;
 
-    ArticleServiceImpl(ArticleRepository articleRepository) {
+    ArticleServiceImpl(ArticleRepository articleRepository, CommentRepository commentRepository) {
         this.articleRepository = articleRepository;
+        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -36,9 +40,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public UpdateArticleResponseDto updateArticle(UpdateArticleRequestDto dto)  {
+    public UpdateArticleResponseDto updateArticle(UpdateArticleRequestDto dto, Long articleId)  {
 
-        Article article = articleRepository.findById(dto.getId()).orElseThrow(IllegalArgumentException::new);
+        Article article = articleRepository.findById(articleId).orElseThrow(IllegalArgumentException::new);
         article.setHeader(dto.getHeader());
         article.setTitle(dto.getTitle());
         article.setContent(dto.getContent());
@@ -54,12 +58,16 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ResponseEntity<List<GetArticleResponseDto>> getArticleListById(Long Id) {
-        return null;
+    public List<GetArticleResponseDto> getArticlesByUserId(Long userId) {
+        List<Article> list = articleRepository.findArticlesByUserId(userId);
+        return list.stream().map(GetArticleResponseDto::new).toList();
     }
 
     @Override
-    public ResponseEntity<GetArticleWithCommentResponseDto> getArticleWithCommentById(Long Id) {
-        return null;
+    public GetArticleWithCommentResponseDto getArticleWithCommentByArticleId(Long articleId) {
+        Article article = articleRepository.findById(articleId).orElseThrow(IllegalArgumentException::new);
+        List<Comment> commentList = commentRepository.findCommentsByArticle_Id(articleId);
+        List<GetCommentResponseDto> commentResponseDtoList = commentList.stream().map(GetCommentResponseDto::new).toList();
+        return new GetArticleWithCommentResponseDto(article,commentResponseDtoList);
     }
 }
