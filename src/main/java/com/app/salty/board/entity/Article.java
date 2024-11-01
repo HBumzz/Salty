@@ -12,6 +12,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -46,6 +48,10 @@ public class Article {
     @LastModifiedDate
     @Column(name="updated_at")
     private LocalDateTime updatedAt;
+
+    @OneToMany(mappedBy = "article")
+    private List<Images> uploadImages = new ArrayList<>();
+
 
     public Article(Users user, ArticleHeader header, String title, String content) {
         this.user = user;
