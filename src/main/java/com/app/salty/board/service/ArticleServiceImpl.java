@@ -1,5 +1,6 @@
 package com.app.salty.board.service;
 
+import com.app.salty.board.dto.ImagesDto.ImagesResponseDto;
 import com.app.salty.board.dto.article.*;
 import com.app.salty.board.dto.comment.GetCommentResponseDto;
 import com.app.salty.board.entity.Article;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -46,7 +46,11 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public GetArticleResponseDto getArticleById(Long id) {
         Article article = articleRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-        return new GetArticleResponseDto(article);
+        List<Images> imagesList = imagesRepository.findImagesByArticle_Id(article.getId());
+        List<ImagesResponseDto> imagesResponseDtoList = imagesList.stream().map(ImagesResponseDto::new).toList();
+        GetArticleResponseDto responseDto = new GetArticleResponseDto(article);
+        responseDto.setImageList(imagesResponseDtoList);
+        return responseDto;
     }
 
     @Transactional

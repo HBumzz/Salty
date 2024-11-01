@@ -1,10 +1,14 @@
 package com.app.salty.board.dto.article;
 
+import com.app.salty.board.dto.ImagesDto.ImagesResponseDto;
 import com.app.salty.board.entity.Article;
+import com.app.salty.board.entity.Images;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 import static com.app.salty.util.DateFormatUtil.formatter;
 
@@ -20,6 +24,7 @@ public class GetArticleResponseDto {
     private String content;
     private String createdAt;
     private String updatedAt;
+    private List<ImagesResponseDto> imageList;
 
 
     public GetArticleResponseDto(Article article) {
@@ -31,4 +36,5 @@ public class GetArticleResponseDto {
         this.createdAt =article.getCreatedAt().format(formatter);
         this.updatedAt =article.getUpdatedAt().format(formatter);
     }
+
 }
