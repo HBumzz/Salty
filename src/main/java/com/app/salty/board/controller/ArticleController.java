@@ -4,10 +4,14 @@ import com.app.salty.board.dto.article.*;
 import com.app.salty.board.service.ArticleServiceImpl;
 import com.app.salty.user.entity.Users;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.List;
 
 @RestController
@@ -34,9 +38,10 @@ public class ArticleController {
     }
 
     // 게시물 저장
-    @PostMapping("/article")
-    public ResponseEntity<SaveArticleResponseDto> saveArticle(@RequestBody SaveArticleRequestDto requestDto
-            , @AuthenticationPrincipal Users user){
+    @PostMapping(value = "/article", consumes ={MediaType.APPLICATION_JSON_VALUE
+            , MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<SaveArticleResponseDto> saveArticle(@RequestPart SaveArticleRequestDto requestDto
+            , @RequestPart("files") MultipartFile[] files) throws IOException {
 
         // 임의의 유저 생성 - test
         Users tempUser = new Users();
@@ -44,7 +49,7 @@ public class ArticleController {
         // ==============================
 
         requestDto.setUser(tempUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(articleService.saveArticle(requestDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(articleService.saveArticle(requestDto, files));
     }
 
     // 게시물(articleId) 수정

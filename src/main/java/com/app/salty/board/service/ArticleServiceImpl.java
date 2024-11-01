@@ -4,21 +4,37 @@ import com.app.salty.board.dto.article.*;
 import com.app.salty.board.dto.comment.GetCommentResponseDto;
 import com.app.salty.board.entity.Article;
 import com.app.salty.board.entity.Comment;
+import com.app.salty.board.entity.Images;
 import com.app.salty.board.repository.ArticleRepository;
 import com.app.salty.board.repository.CommentRepository;
+import com.app.salty.board.repository.ImagesRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
+@Slf4j
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
     ArticleRepository articleRepository;
     CommentRepository commentRepository;
+    ImagesRepository imagesRepository;
 
-    ArticleServiceImpl(ArticleRepository articleRepository, CommentRepository commentRepository) {
+    private final String fileDir = "C:\\Users\\leejinhun\\Downloads\\server\\";
+
+    ArticleServiceImpl(ArticleRepository articleRepository
+            , CommentRepository commentRepository
+            , ImagesRepository imagesRepository) {
         this.articleRepository = articleRepository;
         this.commentRepository = commentRepository;
+        this.imagesRepository = imagesRepository;
     }
 
     @Override
@@ -33,9 +49,33 @@ public class ArticleServiceImpl implements ArticleService {
         return new GetArticleResponseDto(article);
     }
 
+    @Transactional
     @Override
-    public SaveArticleResponseDto saveArticle(SaveArticleRequestDto dto) {
+    public SaveArticleResponseDto saveArticle(SaveArticleRequestDto dto, MultipartFile[] multipartFiles) throws IOException {
         Article article = articleRepository.save(dto.toEntity());
+
+        log.info("multipartFile = {}", multipartFiles);
+        if(!Objects.isNull(multipartFiles)) {
+            for(MultipartFile file : multipartFiles) {
+                String originalFileName = file.getOriginalFilename();
+                log.info("originalFilename ={}",originalFileName);
+
+                long size = file.getSize();
+                log.info("size ={}",size);
+
+                String contentType = file.getContentType();
+                log.info("contentType={}", contentType);
+
+                String filePath = fileDir + originalFileName;
+                log.info("filePath = {}" , filePath);
+
+                Images image = new Images(originalFileName,originalFileName,filePath,size,contentType,article);
+                imagesRepository.save(image);
+
+                file.transferTo(new File(filePath));
+            }
+        }
+
         return new SaveArticleResponseDto(article);
     }
 
